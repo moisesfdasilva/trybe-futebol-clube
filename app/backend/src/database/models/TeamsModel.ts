@@ -16,7 +16,7 @@ Teams.init({
   displayName: {
     allowNull: false,
     type: STRING,
-  }
+  },
 }, {
   sequelize: db,
   underscored: true,
