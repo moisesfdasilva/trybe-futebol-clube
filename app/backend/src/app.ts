@@ -24,6 +24,10 @@ class App {
     this.app.use(accessControl);
   }
 
+  public initRouter():void {
+    this.app.use();
+  }
+
   public start(PORT: string | number):void {
     this.app.listen(PORT, () => console.log(`Running on port ${PORT}`));
   }
