@@ -1,12 +1,16 @@
-import { Router, Request, Response } from 'express';
+import { Request, Response } from 'express';
+import IServiceTeam from '../interfaces/IServiceTeam';
 
 class TeamsController {
-  private _service: IServiceTeams[];
-  constructor(service: IServiceTeams[]) {
+  private _service: IServiceTeam;
+  constructor(service: IServiceTeam) {
     this._service = service;
   }
-  async getAll(req: Request, res: Response) {
-    const result = await this._service.getAll();
+
+  async readAll(req: Request, res: Response) {
+    const result = await this._service.readAll();
     return res.status(200).json(result);
   }
 }
+
+export default TeamsController;

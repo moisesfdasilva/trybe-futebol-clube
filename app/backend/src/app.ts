@@ -9,6 +9,8 @@ class App {
 
     this.config();
 
+    this.initRouter();
+
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
   }
@@ -25,7 +27,7 @@ class App {
     this.app.use(accessControl);
   }
 
-  public initRouter():void {
+  private initRouter():void {
     this.app.use(teamsRoutes);
   }
 
