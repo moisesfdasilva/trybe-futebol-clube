@@ -1,9 +1,5 @@
-interface IUserEmail {
-  userEmail: string,
-}
-
 interface ITokenDecode {
-  data: IUserEmail,
+  data: { userEmail: string },
 }
 
 export default ITokenDecode;
