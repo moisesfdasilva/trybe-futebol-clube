@@ -7,7 +7,7 @@ const secret = process.env.JWT_SECRET || 'jwt_secret';
 
 function tokenGenerate(user: ILogin): string {
   const token = jwt.sign(
-    { data: { userId: user.email } },
+    { data: { userEmail: user.email } },
     secret,
     { expiresIn: '7d', algorithm: 'HS256' },
   );
