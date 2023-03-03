@@ -15,7 +15,7 @@ class LoginController {
       return res.status(400).json({ message: 'All fields must be filled' });
     }
     const token = tokenGenerate({ email, password });
-    return res.status(200).json(token);
+    return res.status(200).json({ token });
   }
 }
 

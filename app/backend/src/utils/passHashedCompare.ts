@@ -7,12 +7,8 @@ async function passHashedCompare(login: ILogin, user: User): Promise<User | null
   const passHashedDB = user.password;
 
   const match = await bcrypt.compare(pass, passHashedDB);
-
-  if(match) {
-    return user;
-  } else {
-    return null;
-  }
+  if (!match) { return null; }
+  return user;
 }
 
 export default passHashedCompare;

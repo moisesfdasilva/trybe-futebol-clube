@@ -9,13 +9,10 @@ class LoginService implements IServiceLogin {
 
   async readOne(login: ILogin): Promise<User | null> {
     const findUser = await this.model.findOne({
-      where: { email: login.email }
+      where: { email: login.email },
     });
-
-    if (!findUser) { return findUser; };
-
+    if (!findUser) { return findUser; }
     const passOk = passHashedCompare(login, findUser);
-    
     return passOk;
   }
 }
