@@ -15,6 +15,13 @@ class LoginService implements IServiceLogin {
     const passOk = passHashedCompare(login, findUser);
     return passOk;
   }
+
+  async getRole(userEmail: string): Promise<User | null> {
+    const findUser = await this.model.findOne({
+      where: { email: userEmail },
+    });
+    return findUser;
+  }
 }
 
 export default LoginService;

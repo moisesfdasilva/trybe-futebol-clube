@@ -1,11 +1,9 @@
-interface UserData {
+interface IUserEmail {
   userEmail: string,
 }
 
-interface TokenDecode {
-  data: UserData,
-  iat: number,
-  exp: number,
+interface ITokenDecode {
+  data: IUserEmail,
 }
 
-export default TokenDecode;
+export default ITokenDecode;

@@ -15,7 +15,7 @@ loginRoutes.post(
 loginRoutes.get(
   '/login/role',
   validateJWTMiddware,
-  // (req: Request, res: Response) => loginController.readOne(req, res),
+  (req: Request, res: Response) => loginController.getRole(req, res),
 );
 
 export default loginRoutes;

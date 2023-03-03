@@ -8,11 +8,12 @@ function validateJWTMiddware(req: Request, res: Response, next: NextFunction) {
     return res.status(401).json({ message: 'Token not found' });
   }
   try {
-    tokenDecode(token);
+    const decode = tokenDecode(token);
+    req.body.userEmail = decode;
+    return next();
   } catch (err) {
     return res.status(401).json({ message: 'Token must be a valid token' });
   }
-  next();
 }
 
 export default validateJWTMiddware;
