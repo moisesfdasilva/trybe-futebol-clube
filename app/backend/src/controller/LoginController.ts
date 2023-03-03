@@ -12,7 +12,8 @@ class LoginController {
     const { email, password } = req.body;
     const result = await this._service.readOne({ email, password });
     if (!result) {
-      return res.status(400).json({ message: 'All fields must be filled' });
+      return res.status(401).json({ message: 'Invalid email or password' });
+      // 'All fields must be filled.'
     }
     const token = tokenGenerate({ email, password });
     return res.status(200).json({ token });
