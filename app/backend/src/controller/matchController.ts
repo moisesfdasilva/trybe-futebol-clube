@@ -16,6 +16,12 @@ class MatchesController {
     const result = await this._service.readAll();
     return res.status(200).json(result);
   }
+
+  async uploadInProgress(req: Request, res: Response) {
+    const { id } = req.params;
+    const result = await this._service.uploadInProgress(Number(id));
+    return res.status(200).json({ message: result });
+  }
 }
 
 export default MatchesController;
