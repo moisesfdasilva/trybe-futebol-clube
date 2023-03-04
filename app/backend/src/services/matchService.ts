@@ -4,6 +4,7 @@ import IServiceMatch from '../interfaces/IServiceMatch';
 import IMatchOutput from '../interfaces/IMatchOutput';
 import Team from '../database/models/TeamModel';
 import IMatchInProgress from '../interfaces/IMatchInProgress';
+import IMatch from '../interfaces/IMatch';
 
 class MatchService implements IServiceMatch {
   protected model: ModelStatic<Match> = Match;
@@ -37,15 +38,25 @@ class MatchService implements IServiceMatch {
   }
 
   async uploadInProgressData(matchInProgress: IMatchInProgress): Promise<IMatchInProgress> {
-    const aa = await this.model.update({
+    await this.model.update({
       id: matchInProgress.id,
       homeTeamGoals: matchInProgress.homeTeamGoals,
       awayTeamGoals: matchInProgress.awayTeamGoals,
     }, {
       where: { id: matchInProgress.id },
     });
-    console.log(aa);
     return matchInProgress;
+  }
+
+  async insertMatch(match: IMatch): Promise<IMatch> {
+    const newMatch = await this.model.create({
+      homeTeamId: match.homeTeamId,
+      homeTeamGoals: match.homeTeamGoals,
+      awayTeamId: match.awayTeamId,
+      awayTeamGoals: match.awayTeamGoals,
+      inProgress: true,
+    });
+    return newMatch.dataValues;
   }
 }
 

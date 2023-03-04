@@ -31,7 +31,18 @@ class MatchesController {
       homeTeamGoals: Number(homeTeamGoals),
       awayTeamGoals: Number(awayTeamGoals),
     });
-    return res.status(200).json({ message: result });
+    return res.status(200).json(result);
+  }
+
+  async insertMatch(req: Request, res: Response) {
+    const { homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals } = req.body;
+    const result = await this._service.insertMatch({
+      homeTeamId,
+      homeTeamGoals,
+      awayTeamId,
+      awayTeamGoals,
+    });
+    return res.status(201).json(result);
   }
 }
 
