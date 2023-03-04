@@ -1,4 +1,4 @@
-import { ModelStatic } from 'sequelize';
+import { ModelStatic, Op } from 'sequelize';
 import Match from '../database/models/MatchModel';
 import IServiceMatch from '../interfaces/IServiceMatch';
 import IMatchOutput from '../interfaces/IMatchOutput';
@@ -8,6 +8,7 @@ import IMatch from '../interfaces/IMatch';
 
 class MatchService implements IServiceMatch {
   protected model: ModelStatic<Match> = Match;
+  protected modelTeam: ModelStatic<Team> = Team;
 
   async readAll(): Promise<IMatchOutput[]> {
     return this.model.findAll({
@@ -57,6 +58,14 @@ class MatchService implements IServiceMatch {
       inProgress: true,
     });
     return newMatch.dataValues;
+  }
+
+  async getTeamsMatch(homeTeamId: number, awayTeamId:number): Promise<number> {
+    const teams = await this.modelTeam.findAll({
+      where: { [Op.or]: [{ id: homeTeamId }, { id: awayTeamId }] },
+    });
+    console.log(teams.length);
+    return teams.length;
   }
 }
 

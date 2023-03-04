@@ -8,6 +8,7 @@ interface IServiceMatch {
   uploadInProgress(id: number): Promise<string>;
   uploadInProgressData(matchInProgress: IMatchInProgress): Promise<IMatchInProgress>;
   insertMatch(match: IMatch): Promise<IMatch>;
+  getTeamsMatch(homeTeamId: number, awayTeamId:number): Promise<number>;
 }
 
 export default IServiceMatch;

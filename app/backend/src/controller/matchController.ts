@@ -36,6 +36,17 @@ class MatchesController {
 
   async insertMatch(req: Request, res: Response) {
     const { homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals } = req.body;
+    if (homeTeamId === awayTeamId) {
+      return res.status(422).json({
+        message: 'It is not possible to create a match with two equal teams',
+      });
+    }
+
+    const teamsMatch = await this._service.getTeamsMatch(homeTeamId, awayTeamId);
+    if (teamsMatch < 2) {
+      return res.status(404).json({ message: 'There is no team with such id!' });
+    }
+
     const result = await this._service.insertMatch({
       homeTeamId,
       homeTeamGoals,
