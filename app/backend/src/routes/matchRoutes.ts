@@ -12,5 +12,10 @@ matchRoutes.patch(
   validateJWTMiddware,
   (req: Request, res: Response) => matchController.uploadInProgress(req, res),
 );
+matchRoutes.patch(
+  '/matches/:id',
+  validateJWTMiddware,
+  (req: Request, res: Response) => matchController.uploadInProgressData(req, res),
+);
 
 export default matchRoutes;
