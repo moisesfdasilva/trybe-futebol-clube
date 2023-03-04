@@ -7,7 +7,12 @@ class MatchesController {
     this._service = service;
   }
 
-  async readAll(_req: Request, res: Response) {
+  async readAll(req: Request, res: Response) {
+    const progress = req.query.inProgress as string;
+    if (progress === 'true' || progress === 'false') {
+      const resultA = await this._service.readInProgress(progress);
+      return res.status(200).json(resultA);
+    }
     const result = await this._service.readAll();
     return res.status(200).json(result);
   }

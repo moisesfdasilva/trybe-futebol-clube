@@ -16,6 +16,19 @@ class MatchService implements IServiceMatch {
       ],
     });
   }
+
+  async readInProgress(progress: string): Promise<IMatchOutput[]> {
+    const matchProgess = progress.includes('true') ? (
+      progress.includes('true')) : !progress.includes('false');
+    return this.model.findAll({
+      where: { inProgress: matchProgess },
+      attributes: { exclude: ['home_team_id', 'away_team_id'] },
+      include: [
+        { model: Team, as: 'homeTeam', attributes: { exclude: ['id'] } },
+        { model: Team, as: 'awayTeam', attributes: { exclude: ['id'] } },
+      ],
+    });
+  }
 }
 
 export default MatchService;
