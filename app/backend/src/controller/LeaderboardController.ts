@@ -30,7 +30,7 @@ class LeaderboardController {
     return result;
   }
 
-  static getMatchPerformance(arrayMatches: IMatchOutput[], allTeams: Team[]): ILeaderboardOutput[] {
+  static getHomeMatches(arrayMatches: IMatchOutput[], allTeams: Team[]): ILeaderboardOutput[] {
     const matchesPoints = LeaderboardController.arrayMatchesPoints(arrayMatches);
     const result = allTeams.map((team) => {
       const matches = matchesPoints.filter((match) => (match.homeTeamName === team.teamName));
@@ -67,10 +67,19 @@ class LeaderboardController {
     const arrayMatches = await this._service.getMatchPerformance();
     const arrayFinishedMatches = arrayMatches.filter((match) => match.inProgress === false);
     const allTeams = await this._service.getAllTeams();
-    const result = LeaderboardController.getMatchPerformance(arrayFinishedMatches, allTeams);
+    const result = LeaderboardController.getHomeMatches(arrayFinishedMatches, allTeams);
     result.sort((a, b) => LeaderboardController.classificationSort(a, b));
     return res.status(200).json(result);
   }
+
+  // async getAwayPerformances(_req: Request, res: Response) {
+  //   const arrayMatches = await this._service.getMatchPerformance();
+  //   const arrayFinishedMatches = arrayMatches.filter((match) => match.inProgress === false);
+  //   const allTeams = await this._service.getAllTeams();
+  //   const result = LeaderboardController.getMatchPerformance(arrayFinishedMatches, allTeams);
+  //   result.sort((a, b) => LeaderboardController.classificationSort(a, b));
+  //   return res.status(200).json('result');
+  // }
 }
 
 export default LeaderboardController;

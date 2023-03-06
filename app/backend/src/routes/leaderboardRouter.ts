@@ -9,5 +9,9 @@ leaderboardRoutes.get(
   '/leaderboard/home',
   (req: Request, res: Response) => leaderboardController.getHomePerformances(req, res),
 );
+// leaderboardRoutes.get(
+//   '/leaderboard/away',
+//   (req: Request, res: Response) => leaderboardController.getAwayPerformances(req, res),
+// );
 
 export default leaderboardRoutes;
