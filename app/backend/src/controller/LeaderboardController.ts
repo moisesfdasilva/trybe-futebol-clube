@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import IServiceLeaderboard from '../interfaces/IServiceLeaderboard';
 import IMatchOutput from '../interfaces/IMatchOutput';
 import Team from '../database/models/TeamModel';
+import ILeaderboardOutput from '../interfaces/ILeaderboardOutput';
 
 class LeaderboardController {
   private _service: IServiceLeaderboard;
@@ -29,11 +30,11 @@ class LeaderboardController {
     return result;
   }
 
-  static getMatchPerformance(arrayMatches: IMatchOutput[], allTeams: Team[]) {
+  static getMatchPerformance(arrayMatches: IMatchOutput[], allTeams: Team[]): ILeaderboardOutput[] {
     const matchesPoints = LeaderboardController.arrayMatchesPoints(arrayMatches);
     const result = allTeams.map((team) => {
       const matches = matchesPoints.filter((match) => (match.homeTeamName === team.teamName));
-      return {
+      const objTeam = {
         name: team.teamName,
         totalPoints: matches.reduce((sum, { homePoint }) => sum + homePoint, 0),
         totalGames: matches.length,
@@ -43,14 +44,31 @@ class LeaderboardController {
         goalsFavor: matches.reduce((sum, { homeTeamGoals }) => sum + homeTeamGoals, 0),
         goalsOwn: matches.reduce((sum, { awayTeamGoals }) => sum + awayTeamGoals, 0),
       };
+      return { ...objTeam,
+        goalsBalance: objTeam.goalsFavor - objTeam.goalsOwn,
+        efficiency: ((objTeam.totalPoints / (objTeam.totalGames * 3)) * 100).toFixed(2) };
     });
     return result;
   }
 
+  static classificationSort(a: ILeaderboardOutput, b: ILeaderboardOutput) {
+    const comparePoints = b.totalPoints - a.totalPoints;
+    const compareWins = b.totalVictories - a.totalVictories;
+    const compareGoalsBalance = b.goalsBalance - a.goalsBalance;
+    const compareGoalsFavor = b.goalsFavor - a.goalsFavor;
+    if (comparePoints !== 0) { return b.totalPoints - a.totalPoints; }
+    if (compareWins !== 0) { return b.totalVictories - a.totalVictories; }
+    if (compareGoalsBalance !== 0) { return b.goalsBalance - a.goalsBalance; }
+    if (compareGoalsFavor !== 0) { return b.goalsFavor - a.goalsFavor; }
+    return b.goalsOwn - a.goalsOwn;
+  }
+
   async getHomePerformances(_req: Request, res: Response) {
     const arrayMatches = await this._service.getMatchPerformance();
+    const arrayFinishedMatches = arrayMatches.filter((match) => match.inProgress === false);
     const allTeams = await this._service.getAllTeams();
-    const result = LeaderboardController.getMatchPerformance(arrayMatches, allTeams);
+    const result = LeaderboardController.getMatchPerformance(arrayFinishedMatches, allTeams);
+    result.sort((a, b) => LeaderboardController.classificationSort(a, b));
     return res.status(200).json(result);
   }
 }
