@@ -3,6 +3,7 @@ import IServiceLeaderboard from '../interfaces/IServiceLeaderboard';
 import IMatchOutput from '../interfaces/IMatchOutput';
 import Team from '../database/models/TeamModel';
 import ILeaderboardOutput from '../interfaces/ILeaderboardOutput';
+import ISimplifiedMatch from '../interfaces/ISimplifiedMatch';
 
 class LeaderboardController {
   private _service: IServiceLeaderboard;
@@ -84,6 +85,47 @@ class LeaderboardController {
     return result;
   }
 
+  static arrayMatPointsUnion(arrayMatches: IMatchOutput[]): ISimplifiedMatch[] {
+    const matchesPoints = LeaderboardController.arrayMatchesPoints(arrayMatches);
+    const home = matchesPoints.map((match) => (
+      {
+        teamGoalsFavor: match.homeTeamGoals,
+        teamGoalsOwn: match.awayTeamGoals,
+        teamName: match.homeTeamName,
+        point: match.homePoint,
+      }
+    ));
+    const away = matchesPoints.map((match) => (
+      {
+        teamGoalsFavor: match.awayTeamGoals,
+        teamGoalsOwn: match.homeTeamGoals,
+        teamName: match.awayTeamName,
+        point: match.awayPoint,
+      }
+    ));
+    return [...home, ...away];
+  }
+
+  static getMatches(arrayMatches: ISimplifiedMatch[], allTeams: Team[]): ILeaderboardOutput[] {
+    const result = allTeams.map((team) => {
+      const matches = arrayMatches.filter((match) => (match.teamName === team.teamName));
+      const objTeam = {
+        name: team.teamName,
+        totalPoints: matches.reduce((sum, { point }) => sum + point, 0),
+        totalGames: matches.length,
+        totalVictories: (matches.filter((match) => (match.point === 3))).length,
+        totalDraws: (matches.filter((match) => (match.point === 1))).length,
+        totalLosses: (matches.filter((match) => (match.point === 0))).length,
+        goalsFavor: matches.reduce((sum, { teamGoalsFavor }) => sum + teamGoalsFavor, 0),
+        goalsOwn: matches.reduce((sum, { teamGoalsOwn }) => sum + teamGoalsOwn, 0),
+      };
+      return { ...objTeam,
+        goalsBalance: objTeam.goalsFavor - objTeam.goalsOwn,
+        efficiency: ((objTeam.totalPoints / (objTeam.totalGames * 3)) * 100).toFixed(2) };
+    });
+    return result;
+  }
+
   async getHomePerformances(_req: Request, res: Response) {
     const arrayMatches = await this._service.getMatchPerformance();
     const arrayFinishedMatches = arrayMatches.filter((match) => match.inProgress === false);
@@ -98,6 +140,16 @@ class LeaderboardController {
     const arrayFinishedMatches = arrayMatches.filter((match) => match.inProgress === false);
     const allTeams = await this._service.getAllTeams();
     const result = LeaderboardController.getAwayMatches(arrayFinishedMatches, allTeams);
+    result.sort((a, b) => LeaderboardController.classificationSort(a, b));
+    return res.status(200).json(result);
+  }
+
+  async getPerformances(_req: Request, res: Response) {
+    const arrayMatches = await this._service.getMatchPerformance();
+    const arrayFinishedMatches = arrayMatches.filter((match) => match.inProgress === false);
+    const allMatches = LeaderboardController.arrayMatPointsUnion(arrayFinishedMatches);
+    const allTeams = await this._service.getAllTeams();
+    const result = LeaderboardController.getMatches(allMatches, allTeams);
     result.sort((a, b) => LeaderboardController.classificationSort(a, b));
     return res.status(200).json(result);
   }
