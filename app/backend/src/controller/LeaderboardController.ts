@@ -63,6 +63,27 @@ class LeaderboardController {
     return b.goalsOwn - a.goalsOwn;
   }
 
+  static getAwayMatches(arrayMatches: IMatchOutput[], allTeams: Team[]): ILeaderboardOutput[] {
+    const matchesPoints = LeaderboardController.arrayMatchesPoints(arrayMatches);
+    const result = allTeams.map((team) => {
+      const matches = matchesPoints.filter((match) => (match.awayTeamName === team.teamName));
+      const objTeam = {
+        name: team.teamName,
+        totalPoints: matches.reduce((sum, { awayPoint }) => sum + awayPoint, 0),
+        totalGames: matches.length,
+        totalVictories: (matches.filter((match) => (match.awayPoint === 3))).length,
+        totalDraws: (matches.filter((match) => (match.awayPoint === 1))).length,
+        totalLosses: (matches.filter((match) => (match.awayPoint === 0))).length,
+        goalsFavor: matches.reduce((sum, { awayTeamGoals }) => sum + awayTeamGoals, 0),
+        goalsOwn: matches.reduce((sum, { homeTeamGoals }) => sum + homeTeamGoals, 0),
+      };
+      return { ...objTeam,
+        goalsBalance: objTeam.goalsFavor - objTeam.goalsOwn,
+        efficiency: ((objTeam.totalPoints / (objTeam.totalGames * 3)) * 100).toFixed(2) };
+    });
+    return result;
+  }
+
   async getHomePerformances(_req: Request, res: Response) {
     const arrayMatches = await this._service.getMatchPerformance();
     const arrayFinishedMatches = arrayMatches.filter((match) => match.inProgress === false);
@@ -72,14 +93,14 @@ class LeaderboardController {
     return res.status(200).json(result);
   }
 
-  // async getAwayPerformances(_req: Request, res: Response) {
-  //   const arrayMatches = await this._service.getMatchPerformance();
-  //   const arrayFinishedMatches = arrayMatches.filter((match) => match.inProgress === false);
-  //   const allTeams = await this._service.getAllTeams();
-  //   const result = LeaderboardController.getMatchPerformance(arrayFinishedMatches, allTeams);
-  //   result.sort((a, b) => LeaderboardController.classificationSort(a, b));
-  //   return res.status(200).json('result');
-  // }
+  async getAwayPerformances(_req: Request, res: Response) {
+    const arrayMatches = await this._service.getMatchPerformance();
+    const arrayFinishedMatches = arrayMatches.filter((match) => match.inProgress === false);
+    const allTeams = await this._service.getAllTeams();
+    const result = LeaderboardController.getAwayMatches(arrayFinishedMatches, allTeams);
+    result.sort((a, b) => LeaderboardController.classificationSort(a, b));
+    return res.status(200).json(result);
+  }
 }
 
 export default LeaderboardController;
