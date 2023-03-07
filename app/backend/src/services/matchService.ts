@@ -64,7 +64,6 @@ class MatchService implements IServiceMatch {
     const teams = await this.modelTeam.findAll({
       where: { [Op.or]: [{ id: homeTeamId }, { id: awayTeamId }] },
     });
-    console.log(teams.length);
     return teams.length;
   }
 }

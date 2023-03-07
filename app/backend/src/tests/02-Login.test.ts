@@ -21,7 +21,7 @@ import { invalidToken, validToken } from './mocks/tokenMock';
 chai.use(chaiHttp);
 const { expect } = chai;
 
-describe('2. Teste da rota /login:', () => {
+describe('2. Teste da rota /login', () => {
   afterEach(() => {
     sinon.restore();
   });
