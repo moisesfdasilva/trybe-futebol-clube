@@ -16,11 +16,12 @@ import {
 } from './mocks/loginMock';
 
 import { userMock } from './mocks/userMock';
+import { invalidToken, validToken } from './mocks/tokenMock';
 
 chai.use(chaiHttp);
 const { expect } = chai;
 
-describe('2. Teste da rota login:', () => {
+describe('2. Teste da rota /login:', () => {
   afterEach(() => {
     sinon.restore();
   });
@@ -82,5 +83,43 @@ describe('2. Teste da rota login:', () => {
 
     expect(response.status).to.be.equal(200);
     expect(response.body).to.have.property('token');
+  });
+
+  it('2.8. Sem o token deve retornar status 401 e a mensagem "Token not found".' ,
+  async function () {
+    const response = await chai.request(app).get('/login/role');
+
+    expect(response.status).to.be.equal(401);
+    expect(response.body).to.be.deep.equal({ message: 'Token not found' });
+  });
+
+  it(`2.9. Com um token inválido deve retornar status 401 e a mensagem "Token must be a 
+  valid token".` , async function () {
+    const response = await chai.request(app).get('/login/role').set(invalidToken);
+
+    expect(response.status).to.be.equal(401);
+    expect(response.body).to.be.deep.equal({ message: 'Token must be a valid token' });
+  });
+
+  it(`2.10. Com um token válido, e email e senha cadastrados no banco de dados deve retornar
+  status 200 e os dados do usuário.` , async function () {
+    sinon.stub(Model, 'findOne').resolves(userMock);
+
+    const response = await chai.request(app).get('/login/role')
+      .set(validToken)
+      .send(inputUserMock);
+
+    expect(response.status).to.be.equal(200);
+    expect(response.body).to.be.deep.equal(userMock);
+  });
+
+  it(`2.11. Com um token válido, e email ou senha não cadastrados no banco de dados deve retornar
+  status 401 e mensagem "Invalid email or password".` , async function () {
+    sinon.stub(Model, 'findOne').resolves(null);
+
+    const response = await chai.request(app).get('/login/role').set(validToken);
+
+    expect(response.status).to.be.equal(401);
+    expect(response.body).to.be.deep.equal({ message: 'Invalid email or password' });
   });
 });

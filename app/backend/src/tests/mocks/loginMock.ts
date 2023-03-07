@@ -22,7 +22,7 @@ const inputUserWithInvalidPassMock: IInputUser = {
 }
 
 const inputUserNotEmailBDMock: IInputUser = {
-  email: 'aaaaaaaaaa@admin.com',
+  email: 'notemailinbd@admin.com',
   password: 'not-pass-in-bd',
 }
 
