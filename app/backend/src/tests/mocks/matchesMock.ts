@@ -1,4 +1,5 @@
 import Match from '../../database/models/MatchModel';
+import IMatchOutput from '../../interfaces/IMatchOutput';
 
 interface IInputFinishedMatch {
   homeTeamGoals: number,
@@ -57,6 +58,29 @@ const inputMatchSameTeamMock = {
   inProgress: false,
 } as Match;
 
+const matchOutputMock: IMatchOutput[] = [
+  {
+    id: 1,
+    homeTeamId: 1,
+    homeTeamGoals: 1,
+    awayTeamId: 2,
+    awayTeamGoals: 1,
+    inProgress: false,
+    homeTeam: { teamName: 'Aum' },
+    awayTeam: { teamName: 'Adois' },
+  },
+  {
+    id: 2,
+    homeTeamId: 3,
+    homeTeamGoals: 2,
+    awayTeamId: 4,
+    awayTeamGoals: 0,
+    inProgress: true,
+    homeTeam: { teamName: 'Adois' },
+    awayTeam: { teamName: 'Aum' },
+  },
+];
+
 export {
   matchesListMock,
   matchesListInProgMock,
@@ -65,4 +89,5 @@ export {
   inputMatchMock,
   validOutputMatchMock,
   inputMatchSameTeamMock,
+  matchOutputMock,
 };

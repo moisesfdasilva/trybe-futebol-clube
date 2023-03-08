@@ -23,7 +23,13 @@ const teamMock: Team = {
   id: 777, teamName: "Vasco da Gama"
 } as Team;
 
+const teamListMacthMock: Team[] = [
+  { id: 1, teamName: 'Aum' },
+  { id: 2, teamName: 'Adois'},
+] as Team[];
+
 export {
   teamsListMock,
   teamMock,
+  teamListMacthMock,
 };
