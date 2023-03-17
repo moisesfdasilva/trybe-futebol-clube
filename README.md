@@ -4,18 +4,20 @@
 Aplicação desenvolvida para apresentar informações sobre partidas e classificações em campeonatos de futebol.
 
 ## Tecnologias e Ferramentas empregadas
+Node.js;
 TypeScript;
 Express;
 Sequelize;
 Chai;
-Node-js.
+Mysql; e
+Docker.
 
 ## Status do Projeto
 Aplicação em funcionamento.
 
 ## Acesso à Aplicação
 ### Instalação e Execução
-Primeiramente deve ser realizado o Fork e o Clone do repositório. Dentro da pasta do repositório realize a instalação das dependências, através do comando npm install, e execute o projeto, através do comando npm start.
+Iniciada pelo Docker...
 
 ## Contribuintes
 |Nome|GitHub|
@@ -24,4 +26,4 @@ Primeiramente deve ser realizado o Fork e o Clone do repositório. Dentro da pas
 |Moisés Fernandes|https://github.com/moisesfdasilva|
 
 ## Contato
-[GitHub: Repositório-trybetunes](https://github.com/moisesfdasilva/trybetunes)
+[GitHub: Repositório-trybe-futebol-clube](https://github.com/moisesfdasilva/trybe-futebol-clube)
