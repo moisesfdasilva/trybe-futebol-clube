@@ -3,6 +3,10 @@
 ## Sobre o Projeto
 Aplicação desenvolvida para apresentar informações sobre partidas e classificações em campeonatos de futebol.
 
+![trybe-futebol-clube-1](./app/trybe-futebol-clube-1.png)
+![trybe-futebol-clube-2](./app/trybe-futebol-clube-2.png)
+![trybe-futebol-clube-3](./app/trybe-futebol-clube-3.png)
+
 ## Tecnologias e Ferramentas empregadas
 Node.js;
 TypeScript;
@@ -17,10 +21,12 @@ Aplicação em funcionamento.
 
 ## Acesso à Aplicação
 ### Instalação e Execução
-A. Entrar no diretório app.
+A. Entrar no diretório app:
+
   $ cd app
 
 B. Iniciada pelo Docker através do comando:
+  
   $ docker compose up
 
 C. Serão iniciados os três containers:
@@ -29,7 +35,7 @@ C. Serão iniciados os três containers:
   3. container docker frontend, com o frontend em Node.js;
 
 D. Acessar atravésdo navegador:
-  http://localhost:3000/
+  <p>http://localhost:3000/</p>
 
 ## Contribuintes
 |Nome|GitHub|
