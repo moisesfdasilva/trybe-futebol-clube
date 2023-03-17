@@ -17,13 +17,19 @@ Aplicação em funcionamento.
 
 ## Acesso à Aplicação
 ### Instalação e Execução
-Iniciada pelo Docker através do comando:
+A. Entrar no diretório app.
+  $ cd app
+
+B. Iniciada pelo Docker através do comando:
   $ docker compose up
 
-Serão iniciados os três containers:
+C. Serão iniciados os três containers:
   1. container docker db, com o banco de dados em MySQL;
   2. container docker backend, com o backend em Node.js; e
   3. container docker frontend, com o frontend em Node.js;
+
+D. Acessar atravésdo navegador:
+  http://localhost:3000/
 
 ## Contribuintes
 |Nome|GitHub|
