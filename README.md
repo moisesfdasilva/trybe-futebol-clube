@@ -1,10 +1,27 @@
-# :construction: README em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto.
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+# Trybe Futebol Clube
+
+## Sobre o Projeto
+Aplicação desenvolvida para apresentar informações sobre partidas e classificações em campeonatos de futebol.
+
+## Tecnologias e Ferramentas empregadas
+TypeScript;
+Express;
+Sequelize;
+Chai;
+Node-js.
+
+## Status do Projeto
+Aplicação em funcionamento.
+
+## Acesso à Aplicação
+### Instalação e Execução
+Primeiramente deve ser realizado o Fork e o Clone do repositório. Dentro da pasta do repositório realize a instalação das dependências, através do comando npm install, e execute o projeto, através do comando npm start.
+
+## Contribuintes
+|Nome|GitHub|
+| -------- | -------- |
+|Trybe|https://github.com/trybe-tech-ops|
+|Moisés Fernandes|https://github.com/moisesfdasilva|
+
+## Contato
+[GitHub: Repositório-trybetunes](https://github.com/moisesfdasilva/trybetunes)
