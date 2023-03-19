@@ -13,6 +13,7 @@ TypeScript;
 Express;
 Sequelize;
 Chai;
+React.js
 Mysql; e
 Docker.
 
