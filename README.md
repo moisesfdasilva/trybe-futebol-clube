@@ -14,6 +14,7 @@ Express;
 Sequelize;
 Chai;
 React.js;
+Context API;
 Mysql; e
 Docker.
 
