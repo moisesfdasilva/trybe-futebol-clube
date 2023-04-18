@@ -36,7 +36,7 @@ C. Serão iniciados os três containers:
   2. container docker backend, com o backend em Node.js; e
   3. container docker frontend, com o frontend em Node.js;
 
-D. Acessar atravésdo navegador:
+D. Acessar através do navegador:
   <p>http://localhost:3000/</p>
 
 ## Contribuintes
