@@ -22,6 +22,8 @@ Docker.
 Aplicação em funcionamento.
 
 ## Acesso à Aplicação
+### Antes da instalação
+Fazer o Clone do repositório.
 ### Instalação e Execução
 A. Entrar no diretório app:
 
@@ -37,7 +39,7 @@ C. Serão iniciados os três containers:
   3. container docker frontend, com o frontend em Node.js;
 
 D. Acessar através do navegador:
-  <p>http://localhost:3000/</p>
+  <p>http://localhost:3000</p>
 
 ## Contribuintes
 |Nome|GitHub|
